@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Book Hotels & Homestays</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
+          Roboto, sans-serif;
+        background: linear-gradient(
+          135deg,
+          #0f0f23 0%,
+          #1a1a2e 50%,
+          #16213e 100%
+        );
+        min-height: 100vh;
+        color: #333;
+        overflow-x: hidden;
+      }
+
+      .container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      .header {
+        text-align: center;
+        margin-bottom: 60px;
+        padding: 80px 0 40px;
+        position: relative;
+      }
+
+      .header::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 200px;
+        height: 4px;
+        background: linear-gradient(90deg, #ff6b6b, #ffd93d, #6bcf7f);
+        border-radius: 2px;
+      }
+
+      .page-title {
+        font-size: 3.5em;
+        font-weight: 800;
+        color: #ffffff;
+        margin-bottom: 15px;
+        letter-spacing: -0.02em;
+        text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      }
+
+      .subtitle {
+        font-size: 1.2em;
+        color: #a0a0a0;
+        font-weight: 400;
+        max-width: 600px;
+        margin: 0 auto;
+        line-height: 1.6;
+      }
+
+      .search-section {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 20px;
+        padding: 30px;
+        margin-bottom: 50px;
+      }
+
+      .search-box {
+        display: flex;
+        gap: 15px;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+
+      .search-input {
+        flex: 1;
+        min-width: 300px;
+        padding: 15px 20px;
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.08);
+        color: white;
+        font-size: 16px;
+        transition: all 0.3s ease;
+      }
+
+      .search-input:focus {
+        outline: none;
+        border-color: #6c5ce7;
+        box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.2);
+      }
+
+      .search-input::placeholder {
+        color: #a0a0a0;
+      }
+
+      .search-btn {
+        padding: 15px 30px;
+        background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+        color: white;
+        border: none;
+        border-radius: 12px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        white-space: nowrap;
+      }
+
+      .search-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(108, 92, 231, 0.3);
+      }
+
+      .stats-bar {
+        display: flex;
+        justify-content: center;
+        gap: 40px;
+        margin-bottom: 50px;
+        flex-wrap: wrap;
+      }
+
+      .stat-item {
+        text-align: center;
+        color: white;
+      }
+
+      .stat-number {
+        font-size: 2.5em;
+        font-weight: 800;
+        display: block;
+        background: linear-gradient(45deg, #ff6b6b, #ffd93d);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .stat-label {
+        font-size: 0.9em;
+        color: #a0a0a0;
+        margin-top: 5px;
+      }
+
+      .cards-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+        gap: 30px;
+        margin-top: 30px;
+      }
+
+      .card {
+        background: rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 20px;
+        overflow: hidden;
+        cursor: pointer;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        position: relative;
+      }
+
+      .card:hover {
+        transform: translateY(-15px) scale(1.02);
+        box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+        border-color: rgba(255, 255, 255, 0.2);
+      }
+
+      .card-image {
+        width: 100%;
+        height: 220px;
+        object-fit: cover;
+        transition: transform 0.4s ease;
+      }
+
+      .card:hover .card-image {
+        transform: scale(1.1);
+      }
+
+      .card-image-placeholder {
+        width: 100%;
+        height: 220px;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.1em;
+        font-weight: 500;
+      }
+
+      .card-content {
+        padding: 25px;
+      }
+
+      .card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 15px;
+      }
+
+      .card-title {
+        font-size: 1.5em;
+        font-weight: 700;
+        color: #ffffff;
+        margin-bottom: 5px;
+        line-height: 1.3;
+      }
+
+      .parking-badge {
+        padding: 6px 14px;
+        border-radius: 20px;
+        font-size: 0.75em;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        white-space: nowrap;
+      }
+
+      .parking-yes {
+        background: linear-gradient(135deg, #00b894, #00cec9);
+        color: white;
+      }
+
+      .parking-no {
+        background: linear-gradient(135deg, #e17055, #fd79a8);
+        color: white;
+      }
+
+      .card-info {
+        color: #b0b0b0;
+        line-height: 1.7;
+      }
+
+      .card-info div {
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+      }
+
+      .card-info strong {
+        color: #ffffff;
+        font-weight: 600;
+        min-width: 80px;
+      }
+
+      .card-rating {
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        background: rgba(0, 0, 0, 0.7);
+        color: #ffd93d;
+        padding: 8px 12px;
+        border-radius: 12px;
+        font-size: 0.9em;
+        font-weight: 600;
+      }
+
+      .loading {
+        text-align: center;
+        padding: 100px 20px;
+        color: white;
+        font-size: 1.3em;
+      }
+
+      .error {
+        text-align: center;
+        padding: 100px 20px;
+        color: #ff6b6b;
+        font-size: 1.3em;
+        background: rgba(255, 107, 107, 0.1);
+        border-radius: 20px;
+        border: 1px solid rgba(255, 107, 107, 0.2);
+      }
+
+      /* Modal Styles */
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.9);
+        backdrop-filter: blur(10px);
+      }
+
+      .modal-content {
+        background: linear-gradient(135deg, #1a1a2e, #16213e);
+        margin: 2% auto;
+        padding: 0;
+        border-radius: 25px;
+        width: 90%;
+        max-width: 700px;
+        max-height: 90vh;
+        overflow-y: auto;
+        box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+        animation: modalSlideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      @keyframes modalSlideIn {
+        from {
+          transform: translateY(-100px) scale(0.8);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0) scale(1);
+          opacity: 1;
+        }
+      }
+
+      .modal-header {
+        position: relative;
+        padding: 0;
+        margin-bottom: 30px;
+      }
+
+      .modal-image {
+        width: 100%;
+        height: 350px;
+        object-fit: cover;
+        border-radius: 25px 25px 0 0;
+      }
+
+      .modal-image-placeholder {
+        width: 100%;
+        height: 350px;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.3em;
+        font-weight: 500;
+        border-radius: 25px 25px 0 0;
+      }
+
+      .close {
+        position: absolute;
+        top: 20px;
+        right: 25px;
+        color: white;
+        font-size: 30px;
+        font-weight: bold;
+        cursor: pointer;
+        background: rgba(0, 0, 0, 0.7);
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        border: 2px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .close:hover {
+        background: rgba(0, 0, 0, 0.9);
+        transform: scale(1.1);
+        border-color: rgba(255, 255, 255, 0.4);
+      }
+
+      .modal-body {
+        padding: 0 40px 40px 40px;
+      }
+
+      .modal-title {
+        font-size: 2.5em;
+        font-weight: 800;
+        color: #ffffff;
+        margin-bottom: 30px;
+        text-align: center;
+        letter-spacing: -0.02em;
+      }
+
+      .modal-details {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 25px;
+        margin-bottom: 30px;
+      }
+
+      .detail-group {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(10px);
+        padding: 20px;
+        border-radius: 15px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transition: all 0.3s ease;
+      }
+
+      .detail-group:hover {
+        background: rgba(255, 255, 255, 0.08);
+        transform: translateY(-2px);
+      }
+
+      .detail-label {
+        font-weight: 600;
+        color: #a0a0a0;
+        margin-bottom: 8px;
+        font-size: 0.9em;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      .detail-value {
+        color: #ffffff;
+        font-size: 1.1em;
+        word-wrap: break-word;
+        font-weight: 500;
+      }
+
+      .contact-section {
+        margin-top: 30px;
+        padding: 25px;
+        background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+        border-radius: 15px;
+        color: white;
+      }
+
+      .contact-title {
+        font-size: 1.3em;
+        font-weight: 700;
+        margin-bottom: 20px;
+        text-align: center;
+      }
+
+      .contact-info {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+      }
+
+      .contact-item {
+        text-align: center;
+        padding: 15px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        transition: all 0.3s ease;
+      }
+
+      .contact-item:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: translateY(-2px);
+      }
+
+      .contact-item strong {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 0.9em;
+        opacity: 0.9;
+      }
+
+      .contact-item a {
+        color: white;
+        text-decoration: none;
+        font-weight: 500;
+      }
+
+      @media (max-width: 768px) {
+        .page-title {
+          font-size: 2.5em;
+        }
+
+        .cards-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .modal-content {
+          width: 95%;
+          margin: 5% auto;
+        }
+
+        .modal-body {
+          padding: 0 25px 25px 25px;
+        }
+
+        .search-box {
+          flex-direction: column;
+        }
+
+        .search-input {
+          min-width: 100%;
+        }
+
+        .stats-bar {
+          gap: 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1 class="page-title">Book Hotels & Homestays</h1>
+        <p class="subtitle">
+          Discover exceptional accommodations for your perfect getaway
+        </p>
+      </div>
+
+      <div class="search-section">
+        <div class="search-box">
+          <input
+            type="text"
+            class="search-input"
+            placeholder="Search hotels by name or location..."
+            id="searchInput"
+          />
+          <button class="search-btn" onclick="searchHotels()">Search</button>
+        </div>
+      </div>
+
+      <div class="stats-bar">
+        <div class="stat-item">
+          <span class="stat-number" id="totalHotels">0</span>
+          <div class="stat-label">Hotels Available</div>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number" id="withParking">0</span>
+          <div class="stat-label">With Parking</div>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number" id="totalRooms">0</span>
+          <div class="stat-label">Total Rooms</div>
+        </div>
+      </div>
+
+      <div id="content">
+        <div class="loading">Loading hotels...</div>
+      </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="detailModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div id="modalImageContainer"></div>
+          <span class="close" onclick="closeModal()">&times;</span>
+        </div>
+        <div class="modal-body">
+          <h2 class="modal-title" id="modalTitle"></h2>
+          <div class="modal-details" id="modalDetails"></div>
+          <div class="contact-section">
+            <h3 class="contact-title">Contact Information</h3>
+            <div class="contact-info" id="contactInfo"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+              // Sample hotel data
+              const hotelData = [
+                    {
+                        name: "Kafal Tourism",
+                        parking: "Yes",
+                        address: "BIYANA LOUDGE,Dhampur Bank, Kaladhungi Road, Nainital",
+                        rooms: "6",
+                        email: "semite.adeeb@gmail.com",
+                        phone: "8193915786",
+                        dateOfRegistration: "2019-03-15",
+                        image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&h=400&fit=crop",
+                    },
+                    {
+                        name: "Raja Guest House",
+                        parking: "No",
+                        address: "Zoo Road, Nainital",
+                        rooms: "7",
+                        email: "namanjeet.singh@gmail.com",
+                        phone: "9759153426",
+                        dateOfRegistration: "2019-03-15",
+                        image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&h=400&fit=crop",
+                    },
+                    {
+                        name: "THE PANORMA",
+                        parking: "No",
+                        address: "The Mall, Nainital",
+                        rooms: "9",
+                        email: "hinapackage@gmail.com",
+                        phone: "9719276807",
+                        dateOfRegistration: "2019-03-15",
+                        image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&h=400&fit=crop",
+                    },
+                    {
+                        name: "Moon Guest House",
+                        parking: "Yes",
+                        address: "126 Head Post Office Road Mallital, Nainital",
+                        rooms: "7",
+                        email: "moonguesthousentl@gmail.com",
+                        phone: "9411681800",
+                        dateOfRegistration: "2019-03-15",
+                        image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&h=400&fit=crop",
+                    },
+                    {
+                        name: "The Pine Wood",
+                        parking: "Yes",
+                        address: "Near High Court, Mallital, Nainital",
+                        rooms: "12",
+                        email: "mithunagarwal@gmail.com",
+                        phone: "9837064746",
+                        dateOfRegistration: "2019-03-15",
+                        image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&h=400&fit=crop",
+                    },
+                    {
+                        name: "Vikas Guest House",
+                        parking: "Yes",
+                        address: "House No. 60, Waldorf Hotel Compound, Mallital, Nainital",
+                        rooms: "8",
+                        email: "ankita.thapa22@gmail.com",
+                        phone: "9411197050",
+                        dateOfRegistration: "2019-03-15",
+                        image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&h=400&fit=crop",
+                    },
+                    {
+                        name: "Hotel Green Leaf",
+                        parking: "Yes",
+                        address: "Haysbarton Compound Rajbhawan Road, Tallital, Nainital",
+                        rooms: "10",
+                        email: "hotelgreenleafnainital@gmail.com",
+                        phone: "9897844252",
+                        dateOfRegistration: "2019-03-15",
+                        image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&h=400&fit=crop",
+                    },
+                    {
+                        name: "Hotel Ankur Plaza",
+                        parking: "Yes",
+                        address: "6, Popular Compound, Opp Ropway/Appughar, Nainital",
+                        rooms: "16",
+                        email: "ANKURPLAZA@gmail.com",
+                        phone: "9411594041",
+                        dateOfRegistration: "2019-03-15",
+                        image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&h=400&fit=crop",
+                    },
+                    {
+                        name: "Hotel Maharaja",
+                        parking: "No",
+                        address: "Zoo Road, Nainital",
+                        rooms: "28",
+                        email: "maharajahotelnainital.com",
+                        phone: "9410170311",
+                        dateOfRegistration: "2019-03-15",
+                        image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&h=400&fit=crop",
+                    },
+                    {
+                        name: "Grand Hotel",
+                        parking: "Yes",
+                        address: "Mall Road, Nainital",
+                        rooms: "31",
+                        email: "stay@thegrandnainital.com",
+                        phone: "9557545700",
+                        dateOfRegistration: "2019-03-15",
+                        image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&h=400&fit=crop",
+                    },
+                    {
+                        name: "Vansh Regency",
+                        parking: "Yes",
+                        address: "76/77 Tallital Market, Nainital",
+                        rooms: "13",
+                        email: "sahsailesh@yahoo.com",
+                        phone: "9675390460",
+                        dateOfRegistration: "2019-03-15",
+                        image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&h=400&fit=crop",
+                    },
+                    {
+                        name: "India Hotel",
+                        parking: "Yes",
+                        address: "Mall Road, Nainital",
+                        rooms: "39",
+                        email: "ramanlic1971@rediffmail.com",
+                        phone: "9719662276",
+                        dateOfRegistration: "2019-03-15",
+                        image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&h=400&fit=crop",
+                    },
+                    {
+                        name: "Hotel Harmony Hall",
+                        parking: "Yes",
+                        address: "Opp Boathouse Club, The Mall, Nainital",
+                        rooms: "11",
+                        email: "ambinig@gmail.com",
+                        phone: "9837070117",
+                        dateOfRegistration: "2019-03-15",
+                        image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&h=400&fit=crop",
+                    },
+                    {
+                        // Phone number not correct
+                        name: "Hotel Alka Annexe",
+                        parking: "Yes",
+                        address: "The Mall, Nainital",
+                        rooms: "17",
+                        email: "reservations@alka.in",
+                        phone: "9756100007",
+                        dateOfRegistration: "2019-03-15",
+                        image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&h=400&fit=crop",
+                    },
+                    {
+                        name: "Hotel Suman Paradise",
+                        parking: "Yes",
+                        address: "Nainital, Nainital",
+                        rooms: "18",
+                        email: "sagar.kausani@yahoo.com",
+                        phone: "9412092282",
+                        dateOfRegistration: "2019-03-15",
+                        image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&h=400&fit=crop",
+                    },
+                    {
+                        name: "Sarita Sah W/O Late Govind Lal Shah(HomeStay)",
+                        parking: "No",
+                        address: "Nanda Devi, Bhabhar Hall Compound, Zoo Road, Talli-Nainital, Nainital",
+                        rooms: "6",
+                        email: "Not Available",
+                        phone: "9410117177",
+                        dateOfRegistration: "2022-08-11",
+                        image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&h=400&fit=crop",
+                    },
+                    {
+                        name: "Ashok Tiwari S/O Late Shri P.DD. Tiwari(HomeStay)",
+                        parking: "No",
+                        address: "Stoneleigh Main Building, Tallital, Nainital",
+                        rooms: "4",
+                        email: "Not Available",
+                        phone: "9105120922",
+                        dateOfRegistration: "2022-10-07",
+                        image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&h=400&fit=crop",
+                    },
+                    {
+                        name: "Kusum Tiwari W/O Girish Ranjan Tiwari(HomeStay)",
+                        parking: "No",
+                        address: "Tapovan Near Stonali Tallital, Nainital",
+                        rooms: "2",
+                        email: "Not Available",
+                        phone: "94120853000",
+                        dateOfRegistration: "2016-06-19",
+                        image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&h=400&fit=crop",
+                    },
+                    {
+                        name: "Sashi Raj Singh S/O Giriraj Singh(HomeStay)",
+                        parking: "No",
+                        address: "Clion House Nainital, Nainital",
+                        rooms: "5",
+                        email: "Not Available",
+                        phone: "9810274960",
+                        dateOfRegistration: "2022-09-21",
+                        image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&h=400&fit=crop",
+                    },
+                    {
+                        name: "Gyan Shyam Bhatt S/O Prem Ballabh Bhatt(HomeStay)",
+                        parking: "No",
+                        address: "Vasundhara, The Mall Mallital, Nainital",
+                        rooms: "4",
+                        email: "Not Available",
+                        phone: "9971002271",
+                        dateOfRegistration: "2022-03-25",
+                        image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&h=400&fit=crop",
+                    },
+                    {
+                        name: "Jai Shari Bisht W/O Gopal Singh(HomeStay)",
+                        parking: "No",
+                        address: "Kriplani Compound Tallital, Nainital",
+                        rooms: "6",
+                        email: "Not Available",
+                        phone: "9634888058",
+                        dateOfRegistration: "2021-07-14",
+                        image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&h=400&fit=crop",
+                    },
+                    {
+                        name: "Mamta Sah W/O Rajendra Lal Sah(HomeStay)",
+                        parking: "No",
+                        address: "219 Naya Bazar Tallital, Nainital",
+                        rooms: "6",
+                        email: "Not Available",
+                        phone: "7351116219",
+                        dateOfRegistration: "2021-12-13",
+                        image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&h=400&fit=crop",
+                    },
+                    {
+                        name: "Rohan Bhatt S/O Late Shri Anil Bhatt(HomeStay)",
+                        parking: "No",
+                        address: "Langdale Lodge, Mallital, Nainital",
+                        rooms: "2",
+                        email: "Not Available",
+                        phone: "9456191794",
+                        dateOfRegistration: "2021-12-30",
+                        image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&h=400&fit=crop",
+                    },
+                    {
+                        name: "Tej Negi S/O Bharat Singh Negi(HomeStay)",
+                        parking: "No",
+                        address: "Mayvilla Compound, Birla Road Tallital, Nainital",
+                        rooms: "6",
+                        email: "Not Available",
+                        phone: "9411199206",
+                        dateOfRegistration: "2022-01-13",
+                        image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&h=400&fit=crop",
+                    },
+                    {
+                        name: "Harshita Negi W/O Tej Bahadur Singh Negi(HomeStay)",
+                        parking: "No",
+                        address: "221, Albany Compound, Tallital, Nainital",
+                        rooms: "5",
+                        email: "Not Available",
+                        phone: "7151019206",
+                        dateOfRegistration: "2022-01-13",
+                        image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&h=400&fit=crop",
+                    }
+                ];
+                  
+
+              let currentData = [];
+              let allHotels = [];
+
+              // Load hotel data
+              function loadHotels() {
+                  try {
+                      // In a real implementation, you would fetch from hotels.json
+                      allHotels = hotelData;
+                      currentData = allHotels;
+                      updateStats();
+                      renderCards(currentData);
+                  } catch (error) {
+                      showError('Failed to load hotel data');
+                      console.error('Error loading hotels:', error);
+                  }
+              }
+
+              // Update statistics
+              function updateStats() {
+                  const totalHotels = currentData.length;
+                  const withParking = currentData.filter(hotel => hotel.parking.toLowerCase() === 'yes').length;
+                  const totalRooms = currentData.reduce((sum, hotel) => sum + parseInt(hotel.rooms), 0);
+
+                  document.getElementById('totalHotels').textContent = totalHotels;
+                  document.getElementById('withParking').textContent = withParking;
+                  document.getElementById('totalRooms').textContent = totalRooms;
+              }
+
+              // Search hotels
+              function searchHotels() {
+                  const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+                  if (searchTerm === '') {
+                      currentData = allHotels;
+                  } else {
+                      currentData = allHotels.filter(hotel =>
+                          hotel.name.toLowerCase().includes(searchTerm) ||
+                          hotel.address.toLowerCase().includes(searchTerm)
+                      );
+                  }
+                  updateStats();
+                  renderCards(currentData);
+              }
+
+              // Add enter key support for search
+              document.getElementById('searchInput').addEventListener('keypress', function(e) {
+                  if (e.key === 'Enter') {
+                      searchHotels();
+                  }
+              });
+
+              // Render hotel cards
+              function renderCards(data) {
+                  const content = document.getElementById('content');
+
+                  if (data.length === 0) {
+                      content.innerHTML = '<div class="error">No hotels found matching your criteria</div>';
+                      return;
+                  }
+
+                  const cardsGrid = document.createElement('div');
+                  cardsGrid.className = 'cards-grid';
+
+                  data.forEach((hotel, index) => {
+                      const card = createHotelCard(hotel, index);
+                      cardsGrid.appendChild(card);
+                  });
+
+                  content.innerHTML = '';
+                  content.appendChild(cardsGrid);
+              }
+
+              // Create individual hotel card
+              function createHotelCard(hotel, index) {
+                  const card = document.createElement('div');
+                  card.className = 'card';
+                  card.onclick = () => openModal(hotel);
+
+                  const parkingClass = hotel.parking.toLowerCase() === 'yes' ? 'parking-yes' : 'parking-no';
+                  const imageHtml = hotel.image ?
+                      `<img src="${hotel.image}" alt="${hotel.name}" class="card-image">` :
+                      `<div class="card-image-placeholder">No Image Available</div>`;
+
+                  card.innerHTML = `
+                      ${imageHtml}
+                      <div class="card-content">
+                          <div class="card-header">
+                              <h3 class="card-title">${hotel.name}</h3>
+                              <span class="parking-badge ${parkingClass}">${hotel.parking}</span>
+                          </div>
+                          <div class="card-info">
+                              <div><strong>Address:</strong> ${hotel.address}</div>
+                              <div><strong>Rooms:</strong> ${hotel.rooms}</div>
+                          </div>
+                      </div>
+                  `;
+
+                  return card;
+              }
+
+              // Open modal with detailed information
+              function openModal(hotel) {
+                  const modal = document.getElementById('detailModal');
+                  const modalTitle = document.getElementById('modalTitle');
+                  const modalDetails = document.getElementById('modalDetails');
+                  const contactInfo = document.getElementById('contactInfo');
+                  const modalImageContainer = document.getElementById('modalImageContainer');
+
+                  modalTitle.textContent = hotel.name;
+
+                  if (hotel.image) {
+                      modalImageContainer.innerHTML = `<img src="${hotel.image}" alt="${hotel.name}" class="modal-image">`;
+                  } else {
+                      modalImageContainer.innerHTML = `<div class="modal-image-placeholder">No Image Available</div>`;
+                  }
+
+                  const parkingClass = hotel.parking.toLowerCase() === 'yes' ? 'parking-yes' : 'parking-no';
+
+                  modalDetails.innerHTML = `
+                      <div class="detail-group">
+                          <div class="detail-label">Address</div>
+                          <div class="detail-value">${hotel.address}</div>
+                      </div>
+                      <div class="detail-group">
+                          <div class="detail-label">Total Rooms</div>
+                          <div class="detail-value">${hotel.rooms}</div>
+                      </div>
+                      <div class="detail-group">
+                          <div class="detail-label">Parking Available</div>
+                          <div class="detail-value">
+                              <span class="parking-badge ${parkingClass}">${hotel.parking}</span>
+                          </div>
+                      </div>
+                      <div class="detail-group">
+                          <div class="detail-label">Registration Date</div>
+                          <div class="detail-value">${formatDate(hotel.dateOfRegistration)}</div>
+                      </div>
+                  `;
+
+                  contactInfo.innerHTML = `
+                      <div class="contact-item">
+                          <strong>Email Address</strong>
+                          <a href="mailto:${hotel.email}">${hotel.email}</a>
+                      </div>
+                      <div class="contact-item">
+                          <strong>Phone Number</strong>
+                          <a href="tel:${hotel.phone}">${hotel.phone}</a>
+                      </div>
+                  `;
+
+                  modal.style.display = 'block';
+              }
+
+              // Close modal
+              function closeModal() {
+                  document.getElementById('detailModal').style.display = 'none';
+              }
+
+              // Format date
+              function formatDate(dateString) {
+                  const date = new Date(dateString);
+                  return date.toLocaleDateString('en-US', {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric'
+                  });
+              }
+
+              // Show error message
+              function showError(message) {
+                  const content = document.getElementById('content');
+                  content.innerHTML = `<div class="error">${message}</div>`;
+              }
+
+              // Close modal when clicking outside
+              window.onclick = function(event) {
+                  const modal = document.getElementById('detailModal');
+                  if (event.target === modal) {
+                      closeModal();
+                  }
+              }
+
+              // Initialize page
+              document.addEventListener('DOMContentLoaded', loadHotels);
+    </script>
+  </body>
+</html>

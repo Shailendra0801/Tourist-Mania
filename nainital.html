@@ -4,12 +4,1078 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nainital - The Lake District of India</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    <link rel="stylesheet" href="styles.css">
-    <script src="script.js"></script>
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+        }
 
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 0;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 1.5rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            font-size: 1rem;
+        }
+
+        .nav-links a:hover {
+            color: #667eea;
+            transform: translateY(-2px);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Hamburger Menu */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: #333;
+            margin: 2px 0;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links.active {
+            display: flex;
+            flex-direction: column;
+            position: absolute;
+            top: 60px;
+            left: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 1rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .slider-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .slider {
+            width: 500%;
+            height: 100%;
+            display: flex;
+            animation: slide 15s infinite;
+        }
+
+        .slide {
+            width: 20%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            background-color: #667eea;
+        }
+
+        .slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 1;
+        }
+
+        @keyframes slide {
+            0%, 20% { transform: translateX(0); }
+            25%, 45% { transform: translateX(-20%); }
+            50%, 70% { transform: translateX(-40%); }
+            75%, 64% { transform: translateX(-60%); }
+            100% { transform: translateX(-80%); }
+        }
+
+        .slider-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            padding: 0.8rem;
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.3s ease;
+            border-radius: 50%;
+            backdrop-filter: blur(10px);
+        }
+
+        .slider-nav:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .prev {
+            left: 1rem;
+        }
+
+        .next {
+            right: 1rem;
+        }
+
+        .hero-content {
+            text-align: center;
+            color: white;
+            z-index: 5;
+            position: relative;
+            max-width: 90%;
+            padding: 0 1rem;
+        }
+
+        .hero-title {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+            animation: fadeInUp 1s ease-out 0.3s both;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            animation: fadeInUp 1s ease-out 0.6s both;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Section Styles */
+        .section {
+            padding: 3rem 0;
+            position: relative;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-description {
+            text-align: center;
+            font-size: 1rem;
+            margin-bottom: 2rem;
+            color: #666;
+            max-width: 90%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Why Visit Section */
+        .why-visit {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .feature-card:hover::before {
+            left: 100%;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.8rem;
+            color: #667eea;
+        }
+
+        .feature-title {
+            font-size: 1.3rem;
+            margin-bottom: 0.8rem;
+            color: #333;
+        }
+
+        .feature-description {
+            color: #666;
+            line-height: 1.6;
+            font-size: 0.9rem;
+        }
+
+        /* Attractions Section */
+        .attractions {
+            background: white;
+        }
+
+        .attractions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .attraction-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .attraction-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .attraction-image {
+            width: 100%;
+            height: 150px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1rem;
+            font-weight: bold;
+        }
+
+        .attraction-content {
+            padding: 1rem;
+        }
+
+        .attraction-title {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .attraction-description {
+            color: #666;
+            line-height: 1.6;
+            font-size: 0.9rem;
+        }
+
+        /* Food Section */
+        .food {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+        }
+
+        .food-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .food-item {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .food-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .food-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .food-name {
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .food-description {
+            color: #666;
+            font-size: 0.85rem;
+        }
+
+        /* Call to Action Section */
+        .cta-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .cta-content {
+            max-width: 90%;
+            margin: 0 auto;
+        }
+
+        .cta-title {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-description {
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+            opacity: 0.9;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .cta-button-secondary {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border: 2px solid white;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            backdrop-filter: blur(10px);
+        }
+
+        .cta-button-secondary:hover {
+            background: white;
+            color: #667eea;
+            transform: translateY(-3px);
+        }
+
+        /* Footer */
+        .footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .footer-title {
+            font-size: 1.3rem;
+            margin-bottom: 0.8rem;
+            color: #667eea;
+        }
+
+        .footer-description {
+            margin-bottom: 1.5rem;
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 0.8rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .social-link:hover {
+            background: #667eea;
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 1.5rem;
+            opacity: 0.6;
+            font-size: 0.85rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .hero {
+                height: 80vh;
+            }
+
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+
+            .section-description {
+                font-size: 0.9rem;
+            }
+
+            .slider-nav {
+                font-size: 1.2rem;
+                padding: 0.5rem;
+            }
+
+            .prev {
+                left: 0.5rem;
+            }
+
+            .next {
+                right: 0.5rem;
+            }
+
+            .cta-button {
+                padding: 0.7rem 1.2rem;
+                font-size: 0.9rem;
+            }
+
+            .cta-button-secondary {
+                padding: 0.7rem 1.2rem;
+                font-size: 0.9rem;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .attractions-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .food-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .attraction-image {
+                height: 120px;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .section {
+                padding: 2rem 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 1.8rem;
+            }
+
+            .hero-subtitle {
+                font-size: 0.9rem;
+            }
+
+            .section-title {
+                font-size: 1.3rem;
+            }
+
+            .section-description {
+                font-size: 0.85rem;
+            }
+
+            .feature-icon, .food-icon {
+                font-size: 2rem;
+            }
+
+            .feature-title, .attraction-title, .food-name {
+                font-size: 1.1rem;
+            }
+
+            .feature-description, .attraction-description, .food-description {
+                font-size: 0.8rem;
+            }
+
+            .cta-title {
+                font-size: 1.5rem;
+            }
+
+            .cta-description {
+                font-size: 0.9rem;
+            }
+
+            .footer-title {
+                font-size: 1.1rem;
+            }
+
+            .footer-description {
+                font-size: 0.8rem;
+            }
+
+            .footer-bottom {
+                font-size: 0.75rem;
+            }
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            100% { transform: translateY(-5px); }
+        }
+
+        .text-center {
+            text-align: center;
+            margin-top: 2rem;
+        }
+    </style>
 </head>
 <body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">Nainital</div>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#attractions">Attractions</a></li>
+                <li><a href="#food">Local Food</a></li>
+                <li><a href="#stay">Stay</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
 
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="slider-container">
+            <div class="slider">
+                <div class="slide"></div>
+                <div class="slide"></div>
+                <div class="slide"></div>
+                <div class="slide"></div>
+                <div class="slide"></div>
+            </div>
+        </div>
+        <button class="slider-nav prev" onclick="changeSlide(-1)">❮</button>
+        <button class="slider-nav next" onclick="changeSlide(1)">❯</button>
+        <div class="hero-content">
+            <h1 class="hero-title">Welcome to Nainital</h1>
+            <p class="hero-subtitle">The Lake District of India</p>
+            <a href="#attractions" class="cta-button">Explore More</a>
+        </div>
+    </section>
+
+    <!-- Why Visit Section -->
+    <section class="section why-visit" id="about">
+        <div class="container">
+            <h2 class="section-title fade-in">Why Visit Nainital?</h2>
+            <p class="section-description fade-in">
+                Nestled in the Kumaon region of Uttarakhand, Nainital is a serene hill station known for its scenic beauty, colonial charm, and vibrant culture. Surrounded by lush green hills and centered around the sparkling Naini Lake, Nainital offers a perfect blend of natural beauty and urban comforts.
+            </p>
+            <div class="features-grid">
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">🏔️</div>
+                    <h3 class="feature-title">For Nature Lovers</h3>
+                    <p class="feature-description">Experience breathtaking landscapes, pristine lakes, and panoramic mountain views that will leave you spellbound.</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">👨‍👩‍👧‍👦</div>
+                    <h3 class="feature-title">Family Friendly</h3>
+                    <p class="feature-description">Perfect destination for families with activities suitable for all ages, from boat rides to zoo visits.</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">🚶‍♀️</div>
+                    <h3 class="feature-title">Solo Explorers</h3>
+                    <p class="feature-description">Discover peaceful trails, cozy cafes, and scenic viewpoints perfect for solo adventures and self-reflection.</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">💕</div>
+                    <h3 class="feature-title">Romantic Getaway</h3>
+                    <p class="feature-description">Create unforgettable memories with boat rides on the lake and romantic walks along the Mall Road.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Attractions Section -->
+    <section class="section attractions" id="attractions">
+        <div class="container">
+            <h2 class="section-title fade-in">Must-Visit Attractions</h2>
+            <p class="section-description fade-in">
+                Discover the most enchanting spots in Nainital, from serene lakes to breathtaking viewpoints, each offering unique experiences and unforgettable memories.
+            </p>
+            <div class="attractions-grid">
+                <div class="attraction-card fade-in">
+                    <div class="attraction-image">Naini Lake</div>
+                    <div class="attraction-content">
+                        <h3 class="attraction-title">Naini Lake</h3>
+                        <p class="attraction-description">The heart of the town. Boating on this lake surrounded by hills is a must-do experience that captures the essence of Nainital.</p>
+                    </div>
+                </div>
+                <div class="attraction-card fade-in">
+                    <div class="attraction-image">Naina Devi Temple</div>
+                    <div class="attraction-content">
+                        <h3 class="attraction-title">Naina Devi Temple</h3>
+                        <p class="attraction-description">A revered Shakti Peeth located by the lake, offering spiritual peace and panoramic views of the surrounding hills.</p>
+                    </div>
+                </div>
+                <div class="attraction-card fade-in">
+                    <div class="attraction-image">Snow View Point</div>
+                    <div class="attraction-content">
+                        <h3 class="attraction-title">Snow View Point</h3>
+                        <p class="attraction-description">Offers panoramic views of the Himalayas. Accessible by cable car, providing an unforgettable journey to stunning vistas.</p>
+                    </div>
+                </div>
+                <div class="attraction-card fade-in">
+                    <div class="attraction-image">Mall Road</div>
+                    <div class="attraction-content">
+                        <h3 class="attraction-title">The Mall Road</h3>
+                        <p class="attraction-description">A bustling street full of cafes, shops, and local handicrafts. Perfect for shopping and experiencing local culture.</p>
+                    </div>
+                </div>
+                <div class="attraction-card fade-in">
+                    <div class="attraction-image">Tiffin Top</div>
+                    <div class="attraction-content">
+                        <h3 class="attraction-title">Tiffin Top (Dorothy's Seat)</h3>
+                        <p class="attraction-description">A popular picnic spot with great views, perfect for spending quality time with family and friends.</p>
+                    </div>
+                </div>
+                <div class="attraction-card fade-in">
+                    <div class="attraction-image">GB Pant Zoo</div>
+                    <div class="attraction-content">
+                        <h3 class="attraction-title">GB Pant High Altitude Zoo</h3>
+                        <p class="attraction-description">Home to endangered species like the snow leopard and Himalayan bear. A must-visit for wildlife enthusiasts.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center">
+                <a href="#" class="cta-button">Explore More Attractions</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Food Section -->
+    <section class="section food" id="food">
+        <div class="container">
+            <h2 class="section-title fade-in">Local Flavors</h2>
+            <p class="section-description fade-in">
+                Savor the authentic taste of Kumaoni cuisine and popular local delicacies that will tantalize your taste buds and give you a true flavor of the region.
+            </p>
+            <div class="food-grid">
+                <div class="food-item fade-in">
+                    <div class="food-icon">🥔</div>
+                    <h3 class="food-name">Aloo Ke Gutke</h3>
+                    <p class="food-description">Spiced boiled potatoes, a staple of Kumaoni homes with authentic mountain flavors.</p>
+                </div>
+                <div class="food-item fade-in">
+                    <div class="food-icon">🍛</div>
+                    <h3 class="food-name">Bhatt Ki Churkani</h3>
+                    <p class="food-description">A traditional black bean curry that's both nutritious and delicious.</p>
+                </div>
+                <div class="food-item fade-in">
+                    <div class="food-icon">🍩</div>
+                    <h3 class="food-name">Gulgule</h3>
+                    <p class="food-description">A sweet fritter enjoyed with tea, perfect for evening snacks.</p>
+                </div>
+                <div class="food-item fade-in">
+                    <div class="food-icon">🍬</div>
+                    <h3 class="food-name">Bal Mithai</h3>
+                    <p class="food-description">A popular local sweet made of khoya and sugar balls, a must-try delicacy.</p>
+                </div>
+                <div class="food-item fade-in">
+                    <div class="food-icon">🥟</div>
+                    <h3 class="food-name">Momos & Maggi</h3>
+                    <p class="food-description">Found at almost every corner, especially near viewpoints for quick bites.</p>
+                </div>
+                <div class="food-item fade-in">
+                    <div class="food-icon">☕</div>
+                    <h3 class="food-name">Café Culture</h3>
+                    <p class="food-description">Trendy cafes with lake views serving everything from pizza to hot chocolate.</p>
+                </div>
+            </div>
+            <div class="text-center">
+                <a href="#" class="cta-button">Discover More Local Food</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action Section -->
+    <section class="section cta-section" id="stay">
+        <div class="container">
+            <div class="cta-content fade-in">
+                <h2 class="cta-title">Plan Your Stay with Us</h2>
+                <p class="cta-description">
+                    From cozy home-stays tucked in the hills to luxury hotels with lake views, Nainital offers a wide range of accommodation and dining options tailored to your preferences.
+                </p>
+                <div class="cta-buttons">
+                    <a href="hotels-home-stay.html" class="cta-button-secondary">Book Hotels & Homestays</a>
+                    <a href="restaurants-cafe.html" class="cta-button-secondary">Find Restaurants & Cafes</a>
+                    <a href="parking-services.html" class="cta-button-secondary">Check Parking & Services</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer" id="contact">
+        <div class="footer-content">
+            <h3 class="footer-title">Nainital - The Lake District of India</h3>
+            <p class="footer-description">
+                Your gateway to the most beautiful hill station in India. Let your journey to the hills begin here.
+            </p>
+            <div class="social-links">
+                <a href="#" class="social-link">📘</a>
+                <a href="#" class="social-link">📷</a>
+                <a href="#" class="social-link">🐦</a>
+                <a href="#" class="social-link">📧</a>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2024 Nainital Tourism. All rights reserved. | Designed with ❤️ for travelers</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Hamburger Menu Toggle
+        const hamburger = document.querySelector('.hamburger');
+        const navLinks = document.querySelector('.nav-links');
+
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            hamburger.classList.toggle('active');
+        });
+
+        // Slider functionality
+        let currentSlide = 0;
+        const totalSlides = 5;
+        let slideInterval;
+
+        function showSlide(n) {
+            const slider = document.querySelector('.slider');
+            currentSlide = (n + totalSlides) % totalSlides;
+            slider.style.transform = `translateX(-${currentSlide * 20}%)`;
+        }
+
+        function changeSlide(direction) {
+            clearInterval(slideInterval);
+            showSlide(currentSlide + direction);
+            startAutoSlide();
+        }
+
+        function startAutoSlide() {
+            slideInterval = setInterval(() => {
+                showSlide(currentSlide + 1);
+            }, 3000);
+        }
+
+        startAutoSlide();
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                    if (navLinks.classList.contains('active')) {
+                        navLinks.classList.remove('active');
+                        hamburger.classList.remove('active');
+                    }
+                }
+            });
+        });
+
+        // Scroll animations
+        function isElementInViewport(el) {
+            const rect = el.getBoundingClientRect();
+            return (
+                rect.top >= 0 &&
+                rect.left >= 0 &&
+                rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+                rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+            );
+        }
+
+        function handleScrollAnimations() {
+            const elements = document.querySelectorAll('.fade-in');
+            elements.forEach(element => {
+                if (isElementInViewport(element)) {
+                    element.classList.add('visible');
+                }
+            });
+        }
+
+        // Navbar scroll effect
+        function handleNavbarScroll() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 100) {
+                navbar.style.background = 'rgba(255, 255, 255, 0.98)';
+                navbar.style.boxShadow = '0 2px 30px rgba(0, 0, 0, 0.15)';
+            } else {
+                navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+                navbar.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
+            }
+        }
+
+        window.addEventListener('scroll', () => {
+            handleScrollAnimations();
+            handleNavbarScroll();
+        });
+
+        window.addEventListener('load', () => {
+            handleScrollAnimations();
+        });
+
+        // Card hover effects
+        document.querySelectorAll('.feature-card, .attraction-card, .food-item').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-5px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+        // Parallax effect
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const heroContent = document.querySelector('.hero-content');
+            if (heroContent) {
+                heroContent.style.transform = `translateY(${scrolled * 0.3}px)`;
+            }
+        });
+
+        // Typing effect
+        function typeWriter(element, text, speed = 100) {
+            let i = 0;
+            element.innerHTML = '';
+            function type() {
+                if (i < text.length) {
+                    element.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                }
+            }
+            type();
+        }
+
+        window.addEventListener('load', () => {
+            const heroTitle = document.querySelector('.hero-title');
+            if (heroTitle) {
+                const originalText = heroTitle.textContent;
+                setTimeout(() => {
+                    typeWriter(heroTitle, originalText, 150);
+                }, 1000);
+            }
+        });
+
+        // CTA button animations
+        document.querySelectorAll('.cta-button, .cta-button-secondary').forEach(button => {
+            button.addEventListener('mouseenter', function() {
+                this.style.animation = 'float 0.6s ease-in-out infinite alternate';
+            });
+            
+            button.addEventListener('mouseleave', function() {
+                this.style.animation = 'none';
+            });
+        });
+
+        // Loading animation
+        window.addEventListener('load', () => {
+            document.body.style.opacity = '0';
+            document.body.style.transition = 'opacity 0.5s ease-in-out';
+            setTimeout(() => {
+                document.body.style.opacity = '1';
+            }, 100);
+        });
+
+        // Click tracking
+        document.querySelectorAll('.cta-button, .cta-button-secondary').forEach(button => {
+            button.addEventListener('click', function(e) {
+                console.log('CTA clicked:', this.textContent);
+            });
+        });
+    </script>
 </body>
 </html>
