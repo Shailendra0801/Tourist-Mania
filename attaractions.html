@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Locations - Tourist Website</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #f0f4f8;
+            color: #333;
+        }
+
+        header {
+            background: linear-gradient(to right, #1e3c72, #2a5298);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .location-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 1rem;
+        }
+
+        .location-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .location-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .location-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .location-info {
+            padding: 1.5rem;
+        }
+
+        .location-info h3 {
+            font-size: 1.5rem;
+            color: #2a5298;
+            margin-bottom: 0.5rem;
+        }
+
+        .location-info p {
+            color: #666;
+            line-height: 1.6;
+            font-size: 0.9rem;
+        }
+
+        footer {
+            background: #1e3c72;
+            color: white;
+            text-align: center;
+            padding: 1rem;
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .location-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Explore Locations</h1>
+        <p>Discover the must-visit places in our city</p>
+    </header>
+
+    <div class="container">
+        <div class="location-grid" id="locationGrid"></div>
+    </div>
+
+
+    <script>
+        const locations = [
+            {
+                name: "Naukuchiatal Lake",
+                info: "A stunning coastal stretch known for its golden sands and breathtaking sunsets. Perfect for a relaxing evening walk or water activities like surfing and kayaking.",
+                image: "assets/Naukuchiatal.jpg"
+            },
+            {
+                name: "Bhowali",
+                info: "Step back in time with charming cobblestone streets, colonial architecture, and vibrant markets. Ideal for history buffs and culture enthusiasts.",
+                image: "assets/bhowali.jpg"
+            },
+            {
+                name: "Ramgarh",
+                info: "A scenic hilltop offering panoramic views of the city and surrounding mountains. A must-visit for photographers and nature lovers.",
+                image: "assets/ramgarh.jpg"
+            },
+            {
+                name: "Pangot",
+                info: "A lush oasis featuring exotic plants, serene walking paths, and colorful flower displays. Perfect for a peaceful day out with family or friends.",
+                image: "assets/pangot.jpg"
+            },
+            {
+                name: "Himalayan botanical garden",
+                info: "A stunning coastal stretch known for its golden sands and breathtaking sunsets. Perfect for a relaxing evening walk or water activities like surfing and kayaking.",
+                image: "assets/Himalayan botanical garden.jpg"
+            },
+            {
+                name: "Bharamsthali",
+                info: "Step back in time with charming cobblestone streets, colonial architecture, and vibrant markets. Ideal for history buffs and culture enthusiasts.",
+                image: "assets/bharamsthali.jpg"
+            },
+            {
+                name: "Bhimtal",
+                info: "A scenic hilltop offering panoramic views of the city and surrounding mountains. A must-visit for photographers and nature lovers.",
+                image: "assets/bhimtal.jpg"
+            },
+            {
+                name: "Raj Bhavan Governor House",
+                info: "A lush oasis featuring exotic plants, serene walking paths, and colorful flower displays. Perfect for a peaceful day out with family or friends.",
+                image: "assets/raj-Bhawan.jpg"
+            },
+            {
+                name: "Golu Devta Temple, Ghorakhal",
+                info: "A stunning coastal stretch known for its golden sands and breathtaking sunsets. Perfect for a relaxing evening walk or water activities like surfing and kayaking.",
+                image: "assets/golu-devta-temple.jpg"
+            },
+            {
+                name: "Uttarakhand High Court",
+                info: "Step back in time with charming cobblestone streets, colonial architecture, and vibrant markets. Ideal for history buffs and culture enthusiasts.",
+                image: "assets/uttarakhand high court.jpg"
+            }
+        ];
+
+        function displayLocations() {
+            const grid = document.getElementById('locationGrid');
+            
+            locations.forEach(location => {
+                const card = document.createElement('div');
+                card.className = 'location-card';
+                
+                card.innerHTML = `
+                    <img src="${location.image}" alt="${location.name}">
+                    <div class="location-info">
+                        <h3>${location.name}</h3>
+                        <p>${location.info}</p>
+                    </div>
+                `;
+                
+                grid.appendChild(card);
+            });
+        }
+
+        window.onload = displayLocations;
+    </script>
+</body>
+</html>

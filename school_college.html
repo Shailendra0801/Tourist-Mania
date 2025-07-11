@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Schools & Colleges - Tourist Website</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Arial", sans-serif;
+      }
+
+      body {
+        background-color: #f0f4f8;
+        color: #333;
+      }
+
+      header {
+        background: linear-gradient(to right, #1e3c72, #2a5298);
+        color: white;
+        padding: 2rem;
+        text-align: center;
+      }
+
+      header h1 {
+        font-size: 2.5rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 2rem auto;
+        padding: 0 1rem;
+      }
+
+      .toggle-container {
+        text-align: center;
+        margin-bottom: 2rem;
+      }
+
+      .toggle-button {
+        background: #2a5298;
+        color: white;
+        border: none;
+        padding: 0.8rem 1.5rem;
+        font-size: 1rem;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: background 0.3s ease;
+      }
+
+      .toggle-button:hover {
+        background: #1e3c72;
+      }
+
+      .toggle-button.active {
+        background: #1e3c72;
+      }
+
+      .education-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        padding: 1rem;
+      }
+
+      .education-card {
+        background: white;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+      }
+
+      .education-card:hover {
+        transform: translateY(-5px);
+      }
+
+      .education-card img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+      }
+
+      .education-info {
+        padding: 1.5rem;
+      }
+
+      .education-info h3 {
+        font-size: 1.5rem;
+        color: #2a5298;
+        margin-bottom: 0.5rem;
+      }
+
+      .education-info p {
+        color: #666;
+        line-height: 1.6;
+      }
+
+      footer {
+        background: #1e3c72;
+        color: white;
+        text-align: center;
+        padding: 1rem;
+        margin-top: 2rem;
+      }
+
+      @media (max-width: 768px) {
+        .education-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Schools & Colleges</h1>
+      <p>Explore educational institutions in our city</p>
+    </header>
+
+    <div class="container">
+      <div class="toggle-container">
+        <button
+          class="toggle-button active"
+          onclick="showInstitutions('schools')"
+        >
+          Schools
+        </button>
+        <button class="toggle-button" onclick="showInstitutions('colleges')">
+          Colleges
+        </button>
+      </div>
+      <div class="education-grid" id="educationGrid"></div>
+    </div>
+
+
+    <script>
+      const institutions = {
+        schools: [
+          {
+            name: "G.I.C",
+            address: "Tallital",
+            image:"https://images.unsplash.com/photo-1523050854058-8df90110c9f1",
+          },
+          {
+            name: "G.G.I.C (Girls)",
+            address: "",
+            image:"https://images.unsplash.com/photo-1509062522246-3755977927d7",
+          },
+          {
+            name: "LPS (Long View Public School)",
+            address: "",
+            image:"https://images.unsplash.com/photo-1523050854058-8df90110c9f1",
+          },
+          {
+            name: "All Saints College Nainital (Girls)",
+            address: "",
+            image:"https://images.unsplash.com/photo-1509062522246-3755977927d7",
+          },
+          {
+            name: "St. Mary's Convent College",
+            address: "",
+            image:"https://images.unsplash.com/photo-1523050854058-8df90110c9f1",
+          },
+          {
+            name: "Mohan Lal Sah Bal Vidya Mandir (Girls)",
+            address: "",
+            image:"https://images.unsplash.com/photo-1509062522246-3755977927d7",
+          },
+          {
+            name: "Birla Vidya Mandir",
+            address: "",
+            image:"https://images.unsplash.com/photo-1523050854058-8df90110c9f1",
+          },
+          {
+            name: "St. Xavier's School",
+            address: "",
+            image:"https://images.unsplash.com/photo-1509062522246-3755977927d7",
+          },
+          {
+            name: "Sherwood College",
+            address: "",
+            image:"https://images.unsplash.com/photo-1523050854058-8df90110c9f1",
+          },
+          {
+            name: "St. Joseph's College, Nainital",
+            address: "",
+            image:"https://images.unsplash.com/photo-1509062522246-3755977927d7",
+          },
+          {
+            name: "Bhartiya Shaheed Sainik Vidyalaya",
+            address: "",
+            image:"https://images.unsplash.com/photo-1523050854058-8df90110c9f1",
+          },
+          {
+            name: "The Holy Academy",
+            address: "",
+            image:"https://images.unsplash.com/photo-1509062522246-3755977927d7",
+          },
+          {
+            name: "Sanwal School",
+            address: "",
+            image:"https://images.unsplash.com/photo-1523050854058-8df90110c9f1",
+          },
+          {
+            name: "Sainik School Ghorakhal",
+            address: "Ghorakhal - Shyamkhet Rd (7.4 km)",
+            image:"https://images.unsplash.com/photo-1509062522246-3755977927d7",
+          },
+        ],
+        colleges: [
+          {
+            name: "Kumaun University Nainital",
+            type: "College",
+            image: "https://images.unsplash.com/photo-1580587771525-78b9dba3b914",
+          },
+          {
+            name: "D.S.B (Dev Singh Bisht) College",
+            type: "College",
+            image: "https://images.unsplash.com/photo-1580587771525-78b9dba3b914",
+          },
+          {
+            name: "Government Polytechnic Nainital",
+            type: "College",
+            image: "https://images.unsplash.com/photo-1580587771525-78b9dba3b914",
+          },
+          {
+            name: "Uttrakhand High Court",
+            type: "Court",
+            image: "https://images.unsplash.com/photo-1580587771525-78b9dba3b914",
+          },
+        ],
+      };
+
+      let currentType = "schools";
+
+      function displayInstitutions(type) {
+        const grid = document.getElementById("educationGrid");
+        grid.innerHTML = "";
+
+        institutions[type].forEach((institution) => {
+          const card = document.createElement("div");
+          card.className = "education-card";
+
+          card.innerHTML = `
+                    <img src="${institution.image}" alt="${institution.name}">
+                    <div class="education-info">
+                        <h3>${institution.name}</h3>
+                        <p>${institution.address}</p>
+                    </div>
+                `;
+
+          grid.appendChild(card);
+        });
+
+        // Update button states
+        document.querySelectorAll(".toggle-button").forEach((button) => {
+          button.classList.remove("active");
+          if (button.textContent.toLowerCase() === type) {
+            button.classList.add("active");
+          }
+        });
+      }
+
+      function showInstitutions(type) {
+        currentType = type;
+        displayInstitutions(type);
+      }
+
+      window.onload = () => displayInstitutions(currentType);
+    </script>
+  </body>
+</html>
